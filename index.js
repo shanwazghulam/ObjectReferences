@@ -5,9 +5,12 @@ const mongoose = require("mongoose");
 const app = express();
 app.use(bodyParser.json());
 
-mongoose.connect("mongodb://localhost/department-app", {
-  useNewUrlParser: true
-});
+mongoose.connect(
+  process.env.MONGODB_URI || "mongodb://localhost/department-app",
+  {
+    useNewUrlParser: true
+  }
+);
 
 const Department = mongoose.model("Department", {
   title: {
@@ -236,6 +239,6 @@ app.post("/product/delete", async (req, res) => {
     return res.status(400).json({ message: "An error occurred" });
   }
 });
-app.listen(3002, () => {
+app.listen(process.env.PORT || 3002, () => {
   console.log("Server started");
 });
